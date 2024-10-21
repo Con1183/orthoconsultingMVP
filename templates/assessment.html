@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        select, textarea {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="{{ url_for('dashboard') }}" class="flex items-center py-4 px-2">
+                            <span class="font-semibold text-gray-500 text-lg">Orthodontic Consulting</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="{{ url_for('dashboard') }}" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="py-2 px-2 font-medium text-white bg-green-500 rounded hover:bg-green-400 transition duration-300">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">{{ title }}</h1>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-6">Patient: {{ patient.first_name }} {{ patient.last_name }}</h2>
+        
+        <form method="POST" action="{{ url_for('assessment', patient_id=patient.id) }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            {{ form.hidden_tag() }}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Facial Profile</h3>
+                    <div class="mb-4">
+                        {{ form.facial_symmetry.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.facial_symmetry(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.profile_type.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.profile_type(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.lip_competence.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.lip_competence(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Functional Assessment</h3>
+                    <div class="mb-4">
+                        {{ form.breathing_pattern.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.breathing_pattern(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.swallowing_pattern.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.swallowing_pattern(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.speech_issues.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.speech_issues(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">TMJ Assessment</h3>
+                    <div class="mb-4">
+                        {{ form.pain.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.pain(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.clicking.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.clicking(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.range_of_motion.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.range_of_motion(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Intra-Oral Assessment</h3>
+                    <div class="mb-4">
+                        {{ form.teeth_condition.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.teeth_condition(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.gum_health.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.gum_health(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                    <div class="mb-4">
+                        {{ form.occlusion.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                        {{ form.occlusion(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Treatment Planning</h3>
+                <div class="mb-4">
+                    {{ form.diagnosis.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.diagnosis(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.treatment_objectives.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.treatment_objectives(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.proposed_treatment.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.proposed_treatment(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.estimated_duration.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.estimated_duration(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Notes</h3>
+                <div class="mb-4">
+                    {{ form.profile_notes.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.profile_notes(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows="3") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.functional_notes.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.functional_notes(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows="3") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.tmj_notes.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.tmj_notes(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows="3") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.intra_oral_notes.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.intra_oral_notes(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows="3") }}
+                </div>
+                <div class="mb-4">
+                    {{ form.treatment_notes.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                    {{ form.treatment_notes(class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", rows="3") }}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-8">
+                {{ form.submit(class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            </div>
+        </form>
+    </div>
+
+    <footer class="bg-gray-800 text-white mt-8">
+        <div class="container mx-auto px-6 py-4">
+            <p class="text-center">© 2023 Orthodontic Consulting. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhance dropdowns for better mobile experience
+        document.querySelectorAll('select').forEach(function(select) {
+            select.addEventListener('change', function() {
+                this.blur();
+            });
+        });
+
+        // Add touch-friendly classes to form elements
+        document.querySelectorAll('select, textarea').forEach(function(el) {
+            el.classList.add('cursor-pointer', 'touch-manipulation');
+        });
+    </script>
+</body>
+</html>

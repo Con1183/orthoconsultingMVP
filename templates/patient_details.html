@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details - Orthodontic Consulting App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold mb-4">Patient Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <p><strong>Name:</strong> {{ patient.first_name }} {{ patient.last_name }}</p>
+                    <p><strong>Date of Birth:</strong> {{ patient.date_of_birth.strftime('%Y-%m-%d') }}</p>
+                </div>
+                <div>
+                    <p><strong>Email:</strong> {{ patient.email }}</p>
+                    <p><strong>Phone:</strong> {{ patient.phone }}</p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-bold mb-4">Assessment History</h3>
+            {% if patient.assessments %}
+                {% for assessment in patient.assessments %}
+                    <div class="border-t border-gray-200 py-4">
+                        <h4 class="font-bold text-lg mb-2">Assessment Date: {{ assessment.date.strftime('%Y-%m-%d') }}</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">Profile Analysis</h5>
+                                <p><strong>Facial Symmetry:</strong> {{ assessment.facial_symmetry or 'N/A' }}</p>
+                                <p><strong>Profile Type:</strong> {{ assessment.profile_type or 'N/A' }}</p>
+                                <p><strong>Lip Competence:</strong> {{ assessment.lip_competence or 'N/A' }}</p>
+                                <p><strong>Profile Notes:</strong> {{ assessment.profile_notes or 'N/A' }}</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Functional Analysis</h5>
+                                <p><strong>Breathing Pattern:</strong> {{ assessment.breathing_pattern or 'N/A' }}</p>
+                                <p><strong>Swallowing Pattern:</strong> {{ assessment.swallowing_pattern or 'N/A' }}</p>
+                                <p><strong>Speech Issues:</strong> {{ assessment.speech_issues or 'N/A' }}</p>
+                                <p><strong>Functional Notes:</strong> {{ assessment.functional_notes or 'N/A' }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">TMJ Assessment</h5>
+                                <p><strong>Pain:</strong> {{ assessment.pain or 'N/A' }}</p>
+                                <p><strong>Clicking:</strong> {{ assessment.clicking or 'N/A' }}</p>
+                                <p><strong>Range of Motion:</strong> {{ assessment.range_of_motion or 'N/A' }}</p>
+                                <p><strong>TMJ Notes:</strong> {{ assessment.tmj_notes or 'N/A' }}</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">Intra-Oral Analysis</h5>
+                                <p><strong>Teeth Condition:</strong> {{ assessment.teeth_condition or 'N/A' }}</p>
+                                <p><strong>Gum Health:</strong> {{ assessment.gum_health or 'N/A' }}</p>
+                                <p><strong>Occlusion:</strong> {{ assessment.occlusion or 'N/A' }}</p>
+                                <p><strong>Intra-Oral Notes:</strong> {{ assessment.intra_oral_notes or 'N/A' }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">Treatment Plan</h5>
+                            <p><strong>Diagnosis:</strong> {{ assessment.diagnosis or 'N/A' }}</p>
+                            <p><strong>Treatment Objectives:</strong> {{ assessment.treatment_objectives or 'N/A' }}</p>
+                            <p><strong>Proposed Treatment:</strong> {{ assessment.proposed_treatment or 'N/A' }}</p>
+                            <p><strong>Estimated Duration:</strong> {{ assessment.estimated_duration or 'N/A' }}</p>
+                            <p><strong>Treatment Notes:</strong> {{ assessment.treatment_notes or 'N/A' }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-gray-600">No assessments available for this patient.</p>
+            {% endif %}
+            
+            <div class="mt-6 flex justify-between items-center">
+                <a href="{{ url_for('assessment', patient_id=patient.id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    New Assessment
+                </a>
+                <a href="{{ url_for('patient_list') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Back to Patient List
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

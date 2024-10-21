@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Orthodontic Consulting App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+            <div class="md:flex">
+                <div class="w-full px-6 py-8">
+                    <h2 class="text-center text-3xl font-bold text-gray-700 mb-4">Welcome to Orthodontic Consulting</h2>
+                    <p class="text-center text-gray-600 mb-6">Please <a class="text-blue-500 hover:text-blue-700" href="{{ url_for('login') }}">login</a> or <a class="text-blue-500 hover:text-blue-700" href="{{ url_for('register') }}">register</a> to continue.</p>
+                    <div class="flex items-center justify-center">
+                        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href="{{ url_for('login') }}">
+                            Login
+                        </a>
+                        <a class="ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href="{{ url_for('register') }}">
+                            Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

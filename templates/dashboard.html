@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Orthodontic Consulting App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="{{ url_for('dashboard') }}" class="flex items-center py-4 px-2">
+                            <span class="font-semibold text-gray-500 text-lg">Orthodontic Consulting</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-gray-700">Welcome, {{ current_user.username }}</span>
+                    <a href="{{ url_for('logout') }}" class="py-2 px-2 font-medium text-white bg-red-500 rounded hover:bg-red-600 transition duration-300">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Patient Management</h2>
+                <a href="{{ url_for('add_patient') }}" class="text-blue-500 hover:text-blue-700 block mb-2">Add New Patient</a>
+                <a href="{{ url_for('patient_list') }}" class="text-blue-500 hover:text-blue-700 block">View Patient List</a>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">New Assessment</h2>
+                <form id="patient-search-form" method="GET" action="{{ url_for('assessment', patient_id=0) }}">
+                    <div class="mb-4">
+                        <label for="patient-search" class="block text-gray-700 text-sm font-bold mb-2">Search Patient:</label>
+                        <input type="text" id="patient-search" name="patient_search" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter patient name or email" required>
+                        <input type="hidden" id="patient-id" name="patient_id">
+                    </div>
+                    <div>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
+                            Start New Assessment
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Quick Stats</h2>
+                <p class="mb-2">Total Patients: <span class="font-bold">{{ patients | length }}</span></p>
+                <p>Assessments Today: <span class="font-bold">{{ assessments | length }}</span></p>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-2xl font-semibold mb-4">Recent Assessments</h2>
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Patient Name
+                            </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Date
+                            </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assessment in assessments %}
+                        <tr>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">{{ assessment.patient.first_name }} {{ assessment.patient.last_name }}</p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p class="text-gray-900 whitespace-no-wrap">{{ assessment.date.strftime('%Y-%m-%d') }}</p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <a href="{{ url_for('assessment', patient_id=assessment.patient_id) }}" class="text-blue-600 hover:text-blue-900">View Details</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-2xl font-semibold mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="{{ url_for('admin_panel') }}" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded text-center">
+                    Admin Panel
+                </a>
+                <a href="{{ url_for('patient_list') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-center">
+                    Patient List
+                </a>
+                <a href="{{ url_for('add_patient') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-center">
+                    Add New Patient
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $("#patient-search").autocomplete({
+                source: function(request, response) {
+                    $.getJSON("{{ url_for('search_patients') }}", {
+                        term: request.term
+                    }, function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label: item.name + " (" + item.email + ")",
+                                value: item.name,
+                                id: item.id
+                            };
+                        }));
+                    });
+                },
+                minLength: 2,
+                select: function(event, ui) {
+                    $("#patient-id").val(ui.item.id);
+                }
+            });
+
+            $("#patient-search-form").on("submit", function(e) {
+                e.preventDefault();
+                var patientId = $("#patient-id").val();
+                if (patientId) {
+                    window.location.href = "{{ url_for('assessment', patient_id=0) }}".replace("0", patientId);
+                } else {
+                    alert("Please select a patient from the search results.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

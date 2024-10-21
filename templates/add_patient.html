@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Add New Patient</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="bg-{{ 'green' if category == 'success' else 'red' }}-100 border border-{{ 'green' if category == 'success' else 'red' }}-400 text-{{ 'green' if category == 'success' else 'red' }}-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span class="block sm:inline">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="{{ url_for('add_patient') }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            {{ form.hidden_tag() }}
+            <div class="mb-4">
+                {{ form.first_name.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                {{ form.first_name(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                {% if form.first_name.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.first_name.errors[0] }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.last_name.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                {{ form.last_name(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                {% if form.last_name.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.last_name.errors[0] }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.date_of_birth.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                {{ form.date_of_birth(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", type="date") }}
+                {% if form.date_of_birth.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.date_of_birth.errors[0] }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.email.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                {{ form.email(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.email.errors[0] }}</p>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                {{ form.phone.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+                {{ form.phone(class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline") }}
+                {% if form.phone.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.phone.errors[0] }}</p>
+                {% endif %}
+            </div>
+            <div class="flex items-center justify-between">
+                {{ form.submit(class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

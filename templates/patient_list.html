@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient List - Orthodontic Consulting App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Patient List</h1>
+        
+        <div class="mb-4">
+            <a href="{{ url_for('dashboard') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Back to Dashboard
+            </a>
+            <a href="{{ url_for('add_patient') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2">
+                Add New Patient
+            </a>
+        </div>
+
+        <div class="bg-white shadow-md rounded my-6">
+            <table class="text-left w-full border-collapse">
+                <thead>
+                    <tr>
+                        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Name</th>
+                        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Date of Birth</th>
+                        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Email</th>
+                        <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr class="hover:bg-grey-lighter">
+                        <td class="py-4 px-6 border-b border-grey-light">{{ patient.first_name }} {{ patient.last_name }}</td>
+                        <td class="py-4 px-6 border-b border-grey-light">{{ patient.date_of_birth.strftime('%Y-%m-%d') }}</td>
+                        <td class="py-4 px-6 border-b border-grey-light">{{ patient.email }}</td>
+                        <td class="py-4 px-6 border-b border-grey-light">
+                            <a href="{{ url_for('patient_details', patient_id=patient.id) }}" class="text-blue-600 hover:text-blue-900 mr-2">View Details</a>
+                            <a href="{{ url_for('assessment', patient_id=patient.id) }}" class="text-green-600 hover:text-green-900">New Assessment</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
