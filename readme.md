@@ -29,7 +29,7 @@ This application provides user authentication, patient record management, orthod
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/orthodontic-consulting-mvp.git
+git clone https://github.com/Con1183/orthoconsultingMVP.git
 cd orthodontic-consulting-mvp
 ```
 
